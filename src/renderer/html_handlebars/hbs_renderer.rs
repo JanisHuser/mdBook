@@ -887,7 +887,11 @@ fn add_playground_pre(
                         }
                     )
                 } else {
-                    format!("<code class=\"{}\">{}</code>", classes, hide_lines(code))
+                    if classes.contains("language-python") {
+                        format!("<pre class=\"playground\"><code class=\"{}\">{}</code></pre>", classes, hide_lines(code))
+                    } else {
+                        format!("<code class=\"{}\">{}</code>", classes, hide_lines(code))
+                    }                    
                 }
             } else {
                 // not language-rust, so no-op
