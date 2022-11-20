@@ -108,10 +108,10 @@ function playground_text(playground) {
             code_block.append(result_block);
         }
 
-        let classList = code_block.classList;
-        if (classList.contains("rust")) {
+        let classList = code_block.children[1].classList;
+        if (classList.contains("language-rust")) {
             run_rust_code(code_block, result_block);
-        } else if (classList.contains("python")) {
+        } else if (classList.contains("language-python")) {
             run_python_code(code_block, result_block);
         }
     }
