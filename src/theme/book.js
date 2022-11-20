@@ -273,7 +273,7 @@ function playground_text(playground) {
 
         buttons.insertBefore(runCodeButton, buttons.firstChild);
         runCodeButton.addEventListener('click', function (e) {
-            run_rust_code(pre_block);
+            run_code(pre_block);
         });
 
         if (window.playground_copyable) {
