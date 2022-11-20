@@ -468,7 +468,7 @@ mod tests {
 
     #[test]
     fn test_find_links_partial_link() {
-        let s = "Some random text with {{#playground...";
+        let s = "Some random text with {{#...";
         assert!(find_links(s).collect::<Vec<_>>() == vec![]);
         let s = "Some random text with {{#include...";
         assert!(find_links(s).collect::<Vec<_>>() == vec![]);

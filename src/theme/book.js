@@ -59,7 +59,8 @@ function playground_text(playground) {
                         win: "Ctrl-Enter",
                         mac: "Ctrl-Enter"
                     },
-                    exec: _editor => run_rust_code(playground_block)
+                    // exec: _editor => run_rust_code(playground_block)
+                    exec: _editor => run_code(playground_block)
                 });
             }
         }
@@ -97,7 +98,8 @@ function playground_text(playground) {
         }
     }
 
-    function run_rust_code(code_block) {
+    function run_code(code_block) {
+
         var result_block = code_block.querySelector(".result");
         if (!result_block) {
             result_block = document.createElement('code');
@@ -106,6 +108,25 @@ function playground_text(playground) {
             code_block.append(result_block);
         }
 
+        let classList = code_block.classList;
+        if (classList.contains("rust")) {
+            run_rust_code(code_block, result_block);
+        } else if (classList.contains("python")) {
+            run_python_code(code_block, result_block);
+        }
+    }
+
+    function run_python_code(code_block, result_block) {
+        let text = playground_text(code_block);
+        
+        let pyscript = document.createElement("py-script");
+        pyscript.innerHTML = text;
+
+        result_block.innerHTML = pyscript;
+    }
+
+
+    function run_rust_code(code_block, result_block) {
         let text = playground_text(code_block);
         let classes = code_block.querySelector('code').classList;
         let edition = "2015";
