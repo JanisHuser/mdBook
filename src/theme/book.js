@@ -144,8 +144,8 @@ function playground_text(playground) {
             }
 
 
-            document.pyodide_stdout_response.forEach(msg => {
-                let textNode = document.createTextNode(msg.msg);
+            document.pyodide_response.forEach(msg => {
+                let textNode = document.createTextNode(msg.msg + '\n');
 
                 if (msg.type == "err") {
                     textNode.style.color = "red";
