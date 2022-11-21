@@ -116,29 +116,30 @@ function playground_text(playground) {
         }
     }
 
+    async function load_pyodide() {
+        const pyodideRuntime = await loadPyodide();
+        return pyodideRuntime;
+    }
+
     function run_python_code(code_block, result_block) {
         let text = playground_text(code_block);
 
-        new Promise(resolve => {
-            const pyodideRuntime = await loadPyodide();
-            return pyodideRuntime;
-        }).then(runtime => {
-            const result = runtime.runPython(text);
-            const lines = result.split(/\r?\n/);
-            const pyresult = document.createElement("span");
+        const runtime = load_pyodide();
+        const result = runtime.runPython(text);
+        const lines = result.split(/\r?\n/);
+        const pyresult = document.createElement("span");
 
-            lines.forEach(line => {
-                let textNode = document.createTextNode(line + '\r\n');
-                pyresult.appendChild(textNode);
-            });
+        lines.forEach(line => {
+            let textNode = document.createTextNode(line + '\r\n');
+            pyresult.appendChild(textNode);
+        });
 
-            while (result_block.firstChild) {
-                result_block.removeChild(result_block.lastChild);
-            }
+        while (result_block.firstChild) {
+            result_block.removeChild(result_block.lastChild);
+        }
 
-            result_block.appendChild(pyresult);
-        })
-        .catch(error => result_block.innerText = "Pyscript error: " + error.message);
+        result_block.appendChild(pyresult);
+
     }
 
 
