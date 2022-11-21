@@ -17,7 +17,6 @@ window.editors = [];
             maxLines: Infinity,
             fontSize: "0.875em" // please adjust the font size of the code in general.css
         });
-
         editor.$blockScrolling = Infinity;
 
         editor.getSession().setMode("ace/mode/rust");

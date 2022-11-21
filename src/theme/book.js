@@ -118,12 +118,13 @@ function playground_text(playground) {
 
     function run_python_code(code_block, result_block) {
         let text = playground_text(code_block);
-        
-        let textNode = document.createTextNode(text);
-        
-        let pyscript = document.createElement("py-script");
+        const lines = text.split(/\r?\n/);
+        const pyscript = document.createElement("py-script");
 
-        pyscript.appendChild(textNode);
+        lines.forEach(line => {
+          let textNode = document.createTextNode(line);
+          pyscript.appendChild(textNode);
+        });
 
         while (result_block.firstChild) {
             result_block.removeChild(result_block.lastChild);
