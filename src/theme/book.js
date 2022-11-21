@@ -130,7 +130,7 @@ function playground_text(playground) {
             }
             document.pyodide = await loadPyodide(config);
         }
-        await pyodide.loadPackagesFromImports(code);
+        await document.pyodide.loadPackagesFromImports(code);
         //await document.pyodide.loadPackage(packages);
         
         return document.pyodide;
