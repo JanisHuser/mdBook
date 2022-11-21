@@ -123,7 +123,7 @@ function playground_text(playground) {
 
     function run_python_code(code_block, result_block) {
         let text = playground_text(code_block);
-        load_pyodide()
+        load_pyodide_env()
         .then(function(runtime) {
             const result = runtime.runPython(text);
             const lines = result.split(/\r?\n/);
