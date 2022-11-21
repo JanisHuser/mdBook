@@ -118,19 +118,22 @@ function playground_text(playground) {
 
     function run_python_code(code_block, result_block) {
         let text = playground_text(code_block);
-        const lines = text.split(/\r?\n/);
-        const pyscript = document.createElement("py-script");
+
+        const result = pyscript.runtime.interpreter.runPython(text);
+
+        const lines = result.split(/\r?\n/);
+        const pyresult = document.createElement("span");
 
         lines.forEach(line => {
           let textNode = document.createTextNode(line + '\r\n');
-          pyscript.appendChild(textNode);
+          pyresult.appendChild(textNode);
         });
 
         while (result_block.firstChild) {
             result_block.removeChild(result_block.lastChild);
         }
 
-        result_block.appendChild(pyscript);
+        result_block.appendChild(pyresult);
     }
 
 
