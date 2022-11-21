@@ -116,39 +116,63 @@ function playground_text(playground) {
         }
     }
 
-    async function load_pyodide_env(text) {
-        let pyodide = await loadPyodide();
-        return pyodide;
-    }
-
-
-    function run_python_code(code_block, result_block) {
+    async function load_pyodide(packages) {
+        document.pyodide_response = []
+        document.pyodide_response = []
+        if (document.pyodide == undefined) {
+            const config = {
+              "stdout": (msg) => {
+                document.pyodide_response.push({msg:msg, type: "out"});
+              },
+              "stderr": (err) => {
+                document.pyodide_response.push({msg:msg, type: "err"});
+              }
+            }
+            document.pyodide = await loadPyodide(config);
+        }
+        await document.pyodide.loadPackage(packages);
         
+        return document.pyodide;
+      }
+      
+        function eval_python_code(code, packages, response_block) {
+        load_pyodide(packages).then(pyodide => { 
+            const result = pyodide.runPython(code);
 
-        let text = playground_text(code_block);
-        load_pyodide_env()
-        .then(function(runtime) {
-            const result = runtime.runPython(text);
-            const pyresult = document.createElement("span");
-    
-            result.forEach(line => {
-                if (line != undefined) {
-                    let textNode = document.createTextNode(line);
-                    pyresult.appendChild(textNode);
-                } 
-            });
-    
             while (result_block.firstChild) {
                 result_block.removeChild(result_block.lastChild);
             }
-    
-            result_block.appendChild(pyresult);
-        },
-        function(error) {
-            result_block.innerHTML = "failed to load pyodide";
-        });
-        
 
+
+            document.pyodide_stdout_response.forEach(msg => {
+                let textNode = document.createTextNode(msg.msg);
+
+                if (msg.type == "err") {
+                    textNode.style.color = "red";
+                }
+
+                result_block.appendChild(textNode);
+            });
+        }).catch(err => {
+          
+        })
+        
+      }
+      
+    function run_python_code(code_block, result_block) {
+        
+        let text = playground_text(code_block);
+        let classList = code_block.children[1].classList;
+
+        let packageList = classes.filter(c => c.startsWith('require-package-'));
+
+        let packages = [];
+        packageList.forEach(x => {
+            packages.push(x.replace('require-package-',''));
+        });
+
+
+        eval_python_code(text,packages,result_block);
     }
 
 
