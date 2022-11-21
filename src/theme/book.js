@@ -119,7 +119,8 @@ function playground_text(playground) {
     function run_python_code(code_block, result_block) {
         let text = playground_text(code_block);
 
-        const result = pyscript.runtime.interpreter.runPython(text);
+        const pyodideRuntime = await loadPyodide();
+        const result = pyodideRuntime.runPython(text);
 
         const lines = result.split(/\r?\n/);
         const pyresult = document.createElement("span");
