@@ -164,7 +164,7 @@ function playground_text(playground) {
         let text = playground_text(code_block);
         let classList = code_block.children[1].classList;
 
-        let packageList = classes.filter(c => c.startsWith('require-package-'));
+        let packageList = classList.filter(c => c.startsWith('require-package-'));
 
         let packages = [];
         packageList.forEach(x => {
