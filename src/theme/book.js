@@ -116,29 +116,34 @@ function playground_text(playground) {
         }
     }
 
-    async function load_pyodide() {
-        const pyodideRuntime = await loadPyodide();
+    async function load_pyodide_env() {
+        let pyodide = await loadPyodide();
         return pyodideRuntime;
     }
 
     function run_python_code(code_block, result_block) {
         let text = playground_text(code_block);
-
-        const runtime = load_pyodide();
-        const result = runtime.runPython(text);
-        const lines = result.split(/\r?\n/);
-        const pyresult = document.createElement("span");
-
-        lines.forEach(line => {
-            let textNode = document.createTextNode(line + '\r\n');
-            pyresult.appendChild(textNode);
+        load_pyodide()
+        .then(function(runtime) {
+            const result = runtime.runPython(text);
+            const lines = result.split(/\r?\n/);
+            const pyresult = document.createElement("span");
+    
+            lines.forEach(line => {
+                let textNode = document.createTextNode(line + '\r\n');
+                pyresult.appendChild(textNode);
+            });
+    
+            while (result_block.firstChild) {
+                result_block.removeChild(result_block.lastChild);
+            }
+    
+            result_block.appendChild(pyresult);
+        },
+        function(error) {
+            result_block.innerHTML = "failed to load pyodide";
         });
-
-        while (result_block.firstChild) {
-            result_block.removeChild(result_block.lastChild);
-        }
-
-        result_block.appendChild(pyresult);
+        
 
     }
 
