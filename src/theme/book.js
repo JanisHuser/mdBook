@@ -135,7 +135,7 @@ function playground_text(playground) {
         return document.pyodide;
       }
       
-        function eval_python_code(code, packages, response_block) {
+        function eval_python_code(code, packages, result_block) {
         load_pyodide(packages).then(pyodide => { 
             const result = pyodide.runPython(code);
 
