@@ -116,22 +116,26 @@ function playground_text(playground) {
         }
     }
 
-    async function load_pyodide_env() {
+    async function load_pyodide_env(text) {
         let pyodide = await loadPyodide();
         return pyodide;
     }
 
+
     function run_python_code(code_block, result_block) {
+        
+
         let text = playground_text(code_block);
         load_pyodide_env()
         .then(function(runtime) {
             const result = runtime.runPython(text);
-            const lines = result.split(/\r?\n/);
             const pyresult = document.createElement("span");
     
-            lines.forEach(line => {
-                let textNode = document.createTextNode(line + '\r\n');
-                pyresult.appendChild(textNode);
+            result.forEach(line => {
+                if (line != undefined) {
+                    let textNode = document.createTextNode(line);
+                    pyresult.appendChild(textNode);
+                } 
             });
     
             while (result_block.firstChild) {
