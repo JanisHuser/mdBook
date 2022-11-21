@@ -118,7 +118,7 @@ function playground_text(playground) {
 
     async function load_pyodide_env() {
         let pyodide = await loadPyodide();
-        return pyodideRuntime;
+        return pyodide;
     }
 
     function run_python_code(code_block, result_block) {
