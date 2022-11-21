@@ -122,7 +122,7 @@ function playground_text(playground) {
         const pyscript = document.createElement("py-script");
 
         lines.forEach(line => {
-          let textNode = document.createTextNode(line);
+          let textNode = document.createTextNode(line + '\r\n');
           pyscript.appendChild(textNode);
         });
 
