@@ -137,8 +137,8 @@ function playground_text(playground) {
       
         function eval_python_code(code, packages, result_block) {
 
-            function append_error_message(message) {
-                let textNode = document.createTextNode(error.message + '\n');
+            function append_error_message(error) {
+                let textNode = document.createTextNode(error);
 
                 textNode.style.color = "red";
 
