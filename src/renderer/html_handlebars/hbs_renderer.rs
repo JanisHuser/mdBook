@@ -893,7 +893,7 @@ fn add_playground_pre(
                 }
             } else {
                 if classes.contains("language-python") {
-                    format!("<pre class=\"playground\"><code class=\"{}\">{}</code></pre>", classes, hide_lines(code))
+                    format!("<pre class=\"playground\"><code class=\"{}\">{}</code></pre>", classes, code)
                 } else {
                     text.to_owned()
                 }
