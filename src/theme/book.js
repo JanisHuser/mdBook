@@ -143,7 +143,6 @@ function playground_text(playground) {
         function append_error_message(error) {
             const errorSpan = document.createElement("span");
             errorSpan.style.color = "red";
-            errorSpan.style.backgroundColor = "#FF7F7F";
             
             const textNode = document.createTextNode(error);
             errorSpan.appendChild(textNode);
