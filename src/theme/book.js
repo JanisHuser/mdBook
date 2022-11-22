@@ -131,14 +131,29 @@ function playground_text(playground) {
             document.pyodide = await loadPyodide(config);
         }
         await document.pyodide.loadPackagesFromImports(code);
-        //await document.pyodide.loadPackage(packages);
         
         return document.pyodide;
       }
       
         function eval_python_code(code, packages, result_block) {
-        load_pyodide(code).then(pyodide => { 
-            const result = pyodide.runPython(code);
+
+            function append_error_message(message) {
+                let textNode = document.createTextNode(error.message + '\n');
+
+                textNode.style.color = "red";
+
+                result_block.appendChild(textNode);
+            }
+        load_pyodide(code).then(pyodide => {
+            let result = "";
+
+            try {
+                result = pyodide.runPython(code);
+            } catch (error) {
+                append_error_message(error.message);
+                return;
+            }
+            
 
             while (result_block.firstChild) {
                 result_block.removeChild(result_block.lastChild);
@@ -159,7 +174,7 @@ function playground_text(playground) {
                 
             });
         }).catch(err => {
-          
+            append_error_message(err);
         })
         
       }
