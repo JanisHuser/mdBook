@@ -299,6 +299,7 @@ impl HtmlHandlebars {
             write_file(destination, "ace.js", playground_editor::ACE_JS)?;
             write_file(destination, "mode-rust.js", playground_editor::MODE_RUST_JS)?;
             write_file(destination, "mode-python.js", playground_editor::MODE_PYTHON_JS)?;
+            write_file(destination, "ext-language_tools.js", playground_editor::EXT_LANGUAGE_TOOLS_JS)?;
             write_file(
                 destination,
                 "theme-dawn.js",
