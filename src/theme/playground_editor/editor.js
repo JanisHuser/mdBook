@@ -19,7 +19,7 @@ window.editors = [];
         });
         editor.$blockScrolling = Infinity;
 
-        editor.classList.forEach(c => {
+        editable.classList.forEach(c => {
             if (c.startsWith("language-")) {
                 let language = c.replace("language-", "");
 
