@@ -135,15 +135,21 @@ function playground_text(playground) {
         return document.pyodide;
       }
       
-        function eval_python_code(code, packages, result_block) {
+    function eval_python_code(code, packages, result_block) {
+        while (result_block.firstChild) {
+            result_block.removeChild(result_block.lastChild);
+        }
 
-            function append_error_message(error) {
-                let textNode = document.createTextNode(error);
+        function append_error_message(error) {
+            const errorSpan = document.createElement("span");
+            errorSpan.style.color = "red";
+            errorSpan.style.backgroundColor = "#FF7F7F";
+            
+            const textNode = document.createTextNode(error);
+            errorSpan.appendChild(textNode);
 
-                textNode.style.color = "red";
-
-                result_block.appendChild(textNode);
-            }
+            result_block.appendChild(errorSpan);
+        }
         load_pyodide(code).then(pyodide => {
             let result = "";
 
@@ -153,31 +159,23 @@ function playground_text(playground) {
                 append_error_message(error.message);
                 return;
             }
-            
-
-            while (result_block.firstChild) {
-                result_block.removeChild(result_block.lastChild);
-            }
-
 
             document.pyodide_response.forEach(msg => {
                 if (msg != "Python initialization complete")
                 {
-                    let textNode = document.createTextNode(msg.msg + '\n');
-
                     if (msg.type == "err") {
-                        textNode.style.color = "red";
+                        append_error_message(msg.msg);
+                    } else {
+                        let textNode = document.createTextNode(msg.msg + '\n');
+                        result_block.appendChild(textNode);
                     }
-
-                    result_block.appendChild(textNode);
                 }
-                
             });
         }).catch(err => {
             append_error_message(err);
         })
         
-      }
+    }
       
     function run_python_code(code_block, result_block) {
         
