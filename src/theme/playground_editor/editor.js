@@ -19,7 +19,13 @@ window.editors = [];
         });
         editor.$blockScrolling = Infinity;
 
-        //editor.getSession().setMode("ace/mode/rust");
+        editor.classList.forEach(c => {
+            if (c.startsWith("language-")) {
+                let language = c.replace("language-", "");
+
+                editor.getSession().setMode("ace/mode/" + language);
+            }
+        });
 
         editor.originalCode = editor.getValue();
 
