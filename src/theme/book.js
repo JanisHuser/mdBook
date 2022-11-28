@@ -166,7 +166,7 @@ function playground_text(playground) {
                         append_error_message(msg.msg);
                     } else {
                         let node = null;
-                        if (msg.type.startsWith("img=")) {
+                        if (msg.msg.startsWith("img=")) {
                             let base64 = msg.replace("img=", '');
 
                             node =document.createElement("img");
