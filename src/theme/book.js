@@ -165,8 +165,16 @@ function playground_text(playground) {
                     if (msg.type == "err") {
                         append_error_message(msg.msg);
                     } else {
-                        let textNode = document.createTextNode(msg.msg + '\n');
-                        result_block.appendChild(textNode);
+                        let node = null;
+                        if (msg.type.startsWith("img=")) {
+                            let base64 = msg.replace("img=", '');
+
+                            node =document.createElement("img");
+                            node.setAttribute("src", "data:image/png;base64," + base64)
+                        } else {
+                            node = document.createTextNode(msg.msg + '\n');
+                        }                        
+                        result_block.appendChild(node);
                     }
                 }
             });
@@ -181,12 +189,11 @@ function playground_text(playground) {
         let text = playground_text(code_block);
         let classList = code_block.children[1].classList;
         let packages = [];
-        classList.forEach(x => {
-            if (x.startsWith("require-package-")) {
-                packages.push(x.replace('require-package-',''));
-            }
-            
-        });
+        // classList.forEach(x => {
+        //     if (x.startsWith("require-package-")) {
+        //         packages.push(x.replace('require-package-',''));
+        //     }
+        // });
 
 
         eval_python_code(text,packages,result_block);
