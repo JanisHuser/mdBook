@@ -167,7 +167,7 @@ function playground_text(playground) {
                     } else {
                         let node = null;
                         if (msg.msg.startsWith("img=")) {
-                            let base64 = msg.replace("img=", '');
+                            let base64 = msg.msg.replace("img=", '');
 
                             node =document.createElement("img");
                             node.setAttribute("src", "data:image/png;base64," + base64)
